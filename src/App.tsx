@@ -1,9 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
 import Loader from "./components/ui/Loader";
 import NotFound from "./pages/NotFound";
+import Layout from "./components/layout";
 
 const Quiz = lazy(() => import("./pages/Quiz"));
 const NewQuiz = lazy(() => import("./pages/New"));
@@ -13,16 +12,16 @@ const EditQuiz = lazy(() => import("./pages/EditQuiz"));
 export default function App() {
   return (
     <Suspense fallback={<Loader />}>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Navigate to="quiz" />} />
-        <Route path="quiz" element={<Quiz />} />
-        <Route path="quiz/:quizID" element={<SingleQuiz />} />
-        <Route path="quiz/:quizID/edit" element={<EditQuiz />} />
-        <Route path="quiz/new" element={<NewQuiz />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Navigate to="quiz" />} />
+          <Route path="quiz" element={<Quiz />} />
+          <Route path="quiz/:quizID" element={<SingleQuiz />} />
+          <Route path="quiz/:quizID/edit" element={<EditQuiz />} />
+          <Route path="quiz/new" element={<NewQuiz />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
     </Suspense>
   );
 }

@@ -12,7 +12,7 @@ const QuizList = () => {
   const getQuizzes = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get<QuizResponse>(`${dbUrl}`);
+      const response = await axios.get<QuizResponse>(`${dbUrl}/quiz.json`);
       const fetchedQuizzes: Quiz[] = [];
       for (let key in response.data) {
         fetchedQuizzes.push({

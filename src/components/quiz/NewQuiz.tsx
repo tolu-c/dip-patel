@@ -19,7 +19,7 @@ const NewQuiz = () => {
 
   const dbUrl = process.env.REACT_APP_DB_URL!;
   const addQuiz = async (quizData: Quiz): Promise<any> => {
-    const response = await axios.post(`${dbUrl}`, quizData);
+    const response = await axios.post(`${dbUrl}/quiz.json`, quizData);
     return response.data.name;
   };
 
