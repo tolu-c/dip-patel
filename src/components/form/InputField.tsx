@@ -2,27 +2,28 @@ import { ChangeEvent } from "react";
 
 type Props = {
   label: string;
+  name: string;
   inputType: "text" | "number";
   placeholder: string;
-  onChange: (value: string) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const InputField = ({ label, inputType, placeholder, onChange }: Props) => {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    const inputValue = event.target.value;
-    onChange(inputValue);
-  };
-
+const InputField = ({
+  label,
+  name,
+  inputType,
+  placeholder,
+  onChange,
+}: Props) => {
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={label}>{label}</label>
       <input
         type={inputType}
-        name={label}
+        name={name}
         id={label}
         placeholder={placeholder}
-        onChange={handleChange}
+        onChange={onChange}
       />
     </div>
   );

@@ -2,18 +2,13 @@ import { ChangeEvent, useRef } from "react";
 
 type Props = {
   label: string;
+  name: string;
   placeholder: string;
-  onChange: (value: string) => void;
+  onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-const TextAreaField = ({ label, placeholder, onChange }: Props) => {
+const TextAreaField = ({ label, name, placeholder, onChange }: Props) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
-
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    event.preventDefault();
-    const inputValue = inputRef?.current?.value ?? "";
-    onChange(inputValue);
-  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -21,11 +16,11 @@ const TextAreaField = ({ label, placeholder, onChange }: Props) => {
         {label}
       </label>
       <textarea
-        name={label}
+        name={name}
         id={label}
         placeholder={placeholder}
         ref={inputRef}
-        onChange={handleChange}
+        onChange={onChange}
       ></textarea>
     </div>
   );

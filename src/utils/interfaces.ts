@@ -1,4 +1,5 @@
 export interface Quiz {
+  quizID: string;
   name: string;
   description: string;
   timeLimit: number;
@@ -18,4 +19,13 @@ export interface Answer {
   questionID: number;
   answerText: string;
   isCorrect: Boolean;
+}
+
+export interface QuizResponse {
+  [key: string]: {
+    name: string;
+    description: string;
+    points: number;
+    timeLimit: number;
+  };
 }
