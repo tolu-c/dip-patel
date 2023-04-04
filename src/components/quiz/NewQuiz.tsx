@@ -4,6 +4,7 @@ import Submit from "../form/Submit";
 import { useState, FormEvent } from "react";
 import { Quiz } from "../../utils/interfaces";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const NewQuiz = () => {
   const [name, setName] = useState<string>("");
@@ -13,11 +14,23 @@ const NewQuiz = () => {
 
   const navigate = useNavigate();
 
-  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
+  const addQuiz = async (quizData: Quiz): Promise<any> => {
+    const response = await axios.post(
+      "https://dip-patel-quiz-default-rtdb.firebaseio.com/quiz.json",
+      quizData
+    );
+    // console.log(response.data);
+    return response.data.name;
+  };
+
+  const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const quiz: Quiz = { name, description, timeLimit, points };
-    console.log({ quiz });
-    navigate(`/quiz/${quiz.name}`);
+    const quiz: Quiz = { name, description, timeLimit, points, questions: [] };
+    // console.log({ quiz });
+
+    const quizID = await addQuiz(quiz);
+
+    navigate(`/quiz/${quizID}`);
   };
 
   return (
