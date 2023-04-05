@@ -4,21 +4,18 @@ export interface Quiz {
   description: string;
   timeLimit: number;
   points: number;
-  questions: Question[];
-}
-export interface QuizWithIndex extends Quiz {
-  [key: string]: any;
+  questions: Question["questionID"][];
 }
 export interface Question {
-  id: number;
-  quizID: number;
+  questionID: string;
+  quizID: string;
   questionText: string;
-  answers: Answer[];
+  answers: Answer["answerID"][];
 }
 
 export interface Answer {
-  id: number;
-  questionID: number;
+  answerID: string;
+  questionID: string;
   answerText: string;
   isCorrect: Boolean;
 }
