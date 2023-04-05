@@ -6,7 +6,9 @@ export interface Quiz {
   points: number;
   questions: Question[];
 }
-
+export interface QuizWithIndex extends Quiz {
+  [key: string]: any;
+}
 export interface Question {
   id: number;
   quizID: number;

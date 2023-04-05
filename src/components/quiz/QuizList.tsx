@@ -1,43 +1,20 @@
-import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
-import { Quiz, QuizResponse } from "../../utils/interfaces";
+import { useEffect } from "react";
 import QuizListItem from "./QuizListItem";
 import { Link } from "react-router-dom";
+import useQuiz from "../../hooks/useQuiz";
 
 const QuizList = () => {
-  const [quizList, setQuizList] = useState<Quiz[]>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const dbUrl = process.env.REACT_APP_DB_URL!;
-  const getQuizzes = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get<QuizResponse>(`${dbUrl}/quiz.json`);
-      const fetchedQuizzes: Quiz[] = [];
-      for (let key in response.data) {
-        fetchedQuizzes.push({
-          ...response.data[key],
-          quizID: key,
-          questions: [],
-        });
-      }
-
-      setQuizList(fetchedQuizzes);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [dbUrl, setQuizList, setIsLoading]);
+  const { handleGetAllQuizzes, showLoader, quizzes } = useQuiz();
 
   useEffect(() => {
-    getQuizzes();
-  }, [getQuizzes]);
+    handleGetAllQuizzes();
+    // eslint-disable-next-line
+  }, []);
 
-  if (isLoading) {
+  if (showLoader) {
     return <div>Fetching latest quizzes...</div>;
   }
-  if (!quizList || quizList.length <= 0) {
+  if (!quizzes || quizzes.length <= 0) {
     return (
       <div>
         <h2>NO Quiz yet</h2>
@@ -52,7 +29,7 @@ const QuizList = () => {
       <h3>Take a quiz</h3>
 
       <ul className="flex flex-col gap-4 divide-y">
-        {quizList?.map((quiz) => (
+        {quizzes?.map((quiz) => (
           <QuizListItem
             quizID={quiz.quizID}
             name={quiz.name}

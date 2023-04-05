@@ -4,7 +4,7 @@ import Submit from "../form/Submit";
 import { useState, FormEvent, ChangeEvent } from "react";
 import { Quiz } from "../../utils/interfaces";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import useQuiz from "../../hooks/useQuiz";
 
 const NewQuiz = () => {
   const [quiz, setQuiz] = useState<Quiz>({
@@ -16,16 +16,12 @@ const NewQuiz = () => {
     questions: [],
   });
   const navigate = useNavigate();
-
-  const dbUrl = process.env.REACT_APP_DB_URL!;
-  const addQuiz = async (quizData: Quiz): Promise<any> => {
-    const response = await axios.post(`${dbUrl}/quiz.json`, quizData);
-    return response.data.name;
-  };
+  const { handleCreateQuiz, showLoader } = useQuiz();
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const quizID = await addQuiz(quiz);
+    const quizID = await handleCreateQuiz(quiz);
+
     navigate(`/quiz/${quizID}`);
   };
 
@@ -41,6 +37,10 @@ const NewQuiz = () => {
       [event.target.name]: event.target.value,
     });
   };
+
+  if (showLoader) {
+    return <div>Creating your quiz... Hang on a bit.</div>;
+  }
 
   return (
     <div>
