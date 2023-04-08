@@ -1,9 +1,11 @@
-type Props = {};
+interface SubmitProps {
+  title: string;
+}
 
-const Submit = (props: Props) => {
+const Submit = ({ title }: SubmitProps) => {
   return (
     <div>
-      <button type="submit">Create</button>
+      <button type="submit">{title}</button>
     </div>
   );
 };

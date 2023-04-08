@@ -25,9 +25,9 @@ const NewQuiz = () => {
       ...quiz,
       quizID: uuidv4(),
     };
-    const quizID = await handleCreateQuiz(submittedQuiz);
+    handleCreateQuiz(submittedQuiz);
 
-    navigate(`/quiz/${quizID}`);
+    navigate(`/quiz/${submittedQuiz.quizID}`);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +82,7 @@ const NewQuiz = () => {
               onChange={handleChange}
             />
           </div>
-          <Submit />
+          <Submit title="Create" />
         </form>
       </div>
     </div>

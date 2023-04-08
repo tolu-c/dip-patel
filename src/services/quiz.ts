@@ -16,7 +16,6 @@ export const getAllQuizzes = async () => {
 
 export const createQuiz = async (data: Quiz) => {
   const res = await AxiosApi.post(`${APIS.QUIZ.quiz}`, data);
-  // const firebaseName = res.data.name;
   return res.data.name;
 };
 
