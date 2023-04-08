@@ -21,6 +21,7 @@ const EditQuiz = () => {
           onClose={() => {
             setEditQuiz(false);
           }}
+          quizID={quizID!}
         />
       )}
     </div>

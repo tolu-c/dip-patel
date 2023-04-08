@@ -26,5 +26,6 @@ export interface QuizResponse {
     description: string;
     points: number;
     timeLimit: number;
+    quizID: string;
   };
 }

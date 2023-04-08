@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Quiz } from "../utils/interfaces";
-import { createQuiz, getAllQuizzes } from "../services/quiz";
+import { createQuiz, getAllQuizzes, getSingleQuiz } from "../services/quiz";
 
 const useQuiz = () => {
   const [showLoader, setShowLoader] = useState<boolean>(false);
@@ -40,7 +40,30 @@ const useQuiz = () => {
     });
   };
 
-  return { handleGetAllQuizzes, handleCreateQuiz, showLoader, quizzes };
+  const handleGetSingleQuiz = async (quizID: string) => {
+    return new Promise<any>((resolve) => {
+      setShowLoader(true);
+
+      getSingleQuiz(quizID)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log(`Error: ${error.message}`);
+        })
+        .finally(() => {
+          setShowLoader(false);
+        });
+    });
+  };
+
+  return {
+    handleGetAllQuizzes,
+    handleCreateQuiz,
+    handleGetSingleQuiz,
+    showLoader,
+    quizzes,
+  };
 };
 
 export default useQuiz;

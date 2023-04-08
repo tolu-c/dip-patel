@@ -5,6 +5,7 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { Quiz } from "../../utils/interfaces";
 import { useNavigate } from "react-router-dom";
 import useQuiz from "../../hooks/useQuiz";
+import { v4 as uuidv4 } from "uuid";
 
 const NewQuiz = () => {
   const [quiz, setQuiz] = useState<Quiz>({
@@ -20,7 +21,11 @@ const NewQuiz = () => {
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const quizID = await handleCreateQuiz(quiz);
+    const submittedQuiz: Quiz = {
+      ...quiz,
+      quizID: uuidv4(),
+    };
+    const quizID = await handleCreateQuiz(submittedQuiz);
 
     navigate(`/quiz/${quizID}`);
   };
