@@ -38,14 +38,6 @@ export const getQuestion = async (quizID: string) => {
   return fetchedQuestions;
 };
 
-export const getSingleQuestion = async (quizID: string, questionID: string) => {
-  const allQuestions: Question[] = await getQuestion(quizID);
-  const singleQuestion: Question = allQuestions.find(
-    (question) => question.questionID === questionID
-  )!;
-  return singleQuestion;
-};
-
 export const createAnswer = async (questionID: string, data: Answer) => {
   const res = await AxiosApi.post(`${APIS.ANSWER.answer(questionID)}`, data);
   return res.data;

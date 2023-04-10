@@ -6,7 +6,6 @@ import {
   createQuiz,
   getAllQuizzes,
   getQuestion,
-  getSingleQuestion,
   getSingleQuiz,
 } from "../services/quiz";
 // import useNotification from "./useNotification";
@@ -104,26 +103,6 @@ const useQuiz = () => {
     });
   };
 
-  const handleGetSingleQuestion = async (
-    quizID: string,
-    questionID: string
-  ) => {
-    return new Promise<any>((resolve) => {
-      setShowLoader(true);
-
-      getSingleQuestion(quizID, questionID)
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((error) => {
-          console.log(`Error: ${error.message}`);
-        })
-        .finally(() => {
-          setShowLoader(false);
-        });
-    });
-  };
-
   const handleCreateAnswer = (questionID: string, data: Answer) => {
     return new Promise<any>((resolve) => {
       setShowLoader(true);
@@ -152,7 +131,6 @@ const useQuiz = () => {
     handleGetSingleQuiz,
     handleCreateQuestion,
     handleGetQuestion,
-    handleGetSingleQuestion,
     handleCreateAnswer,
     setShowLoader,
     showLoader,
