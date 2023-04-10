@@ -7,6 +7,7 @@ import {
   getAllQuizzes,
   getQuestion,
   getSingleQuiz,
+  getAnswer,
 } from "../services/quiz";
 // import useNotification from "./useNotification";
 
@@ -14,6 +15,7 @@ const useQuiz = () => {
   const [showLoader, setShowLoader] = useState<boolean>(false);
   const [quizzes, setQuizzes] = useState<Quiz[]>();
   const [questions, setQuestions] = useState<Question[] | null>(null);
+  const [answers, setAnswers] = useState<Answer[] | null>(null);
   // const { showNotification } = useNotification();
 
   const handleGetAllQuizzes = () => {
@@ -125,6 +127,20 @@ const useQuiz = () => {
     });
   };
 
+  const handleGetAnswer = async (questionID: string) => {
+    return new Promise<any>((resolve, reject) => {
+      getAnswer(questionID)
+        .then((res) => {
+          resolve(res);
+          setAnswers(res);
+        })
+        .catch((error) => {
+          console.log(`Error: ${error.message}`);
+          reject(error);
+        });
+    });
+  };
+
   return {
     handleGetAllQuizzes,
     handleCreateQuiz,
@@ -132,9 +148,11 @@ const useQuiz = () => {
     handleCreateQuestion,
     handleGetQuestion,
     handleCreateAnswer,
+    handleGetAnswer,
     setShowLoader,
     showLoader,
     quizzes,
+    answers,
     questions,
   };
 };

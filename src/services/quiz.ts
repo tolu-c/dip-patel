@@ -42,3 +42,12 @@ export const createAnswer = async (questionID: string, data: Answer) => {
   const res = await AxiosApi.post(`${APIS.ANSWER.answer(questionID)}`, data);
   return res.data;
 };
+
+export const getAnswer = async (questionID: string) => {
+  const res = await AxiosApi.get(`${APIS.ANSWER.answer(questionID)}`);
+  const fetchedAnswers: Answer[] = [];
+  for (let key in res.data) {
+    fetchedAnswers.push({ ...res.data[key] });
+  }
+  return fetchedAnswers;
+};

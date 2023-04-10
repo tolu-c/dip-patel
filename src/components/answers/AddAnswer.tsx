@@ -5,13 +5,15 @@ import InputField from "../form/InputField";
 import Submit from "../form/Submit";
 import Modal from "../ui/Modal";
 import useQuiz from "../../hooks/useQuiz";
+import AnswerList from "./AnswerList";
 
 interface Props {
   onClose: () => void;
   question: Question;
+  isOpen: boolean;
 }
 
-const AddAnswer = ({ onClose, question }: Props) => {
+const AddAnswer = ({ onClose, question, isOpen }: Props) => {
   const [answer, setAnswer] = useState<Answer>({
     questionID: question.questionID,
     answerText: "",
@@ -20,7 +22,19 @@ const AddAnswer = ({ onClose, question }: Props) => {
   });
   const [correctAnswer, setCorrectAnswer] = useState<boolean>(false);
 
-  const { handleCreateAnswer } = useQuiz();
+  const {
+    handleCreateAnswer,
+    setShowLoader,
+    showLoader,
+    handleGetAnswer,
+    answers,
+  } = useQuiz();
+
+  const fetchAnswer = () => {
+    handleGetAnswer(answer.questionID).finally(() => {
+      setShowLoader(false);
+    });
+  };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAnswer({
@@ -37,7 +51,14 @@ const AddAnswer = ({ onClose, question }: Props) => {
       isCorrect: correctAnswer,
     };
     // console.log({ submittedAnswer });
-    handleCreateAnswer(submittedAnswer.questionID, submittedAnswer);
+    handleCreateAnswer(submittedAnswer.questionID, submittedAnswer)
+      .then(() => {
+        setShowLoader(true);
+        fetchAnswer();
+      })
+      .finally(() => {
+        setShowLoader(true);
+      });
   };
 
   return (
@@ -70,6 +91,14 @@ const AddAnswer = ({ onClose, question }: Props) => {
 
         <Submit title="Add Answer" />
       </form>
+      {/* answers created */}
+      <AnswerList
+        answers={answers!}
+        fetchAnswers={fetchAnswer}
+        isOpen={isOpen}
+        loading={showLoader}
+        setLoader={setShowLoader}
+      />
     </Modal>
   );
 };

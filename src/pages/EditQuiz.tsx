@@ -90,6 +90,7 @@ const EditQuiz = () => {
             setEditQuestion(false);
           }}
           question={currentQuestion!}
+          isOpen={editQuestion}
         />
       )}
     </div>

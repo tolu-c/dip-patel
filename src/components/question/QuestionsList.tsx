@@ -25,8 +25,6 @@ const QuestionsList = ({
     //eslint-disable-next-line
   }, []);
 
-  console.log({ questions });
-
   if (loading) return <p>Fetching your questions</p>;
 
   if (!questions || questions.length === 0) {

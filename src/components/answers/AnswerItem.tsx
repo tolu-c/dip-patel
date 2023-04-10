@@ -1,9 +1,11 @@
-import React from "react";
+import { Answer } from "../../utils/interfaces";
 
-type Props = {};
+type Props = {
+  answer: Answer;
+};
 
-const AnswerItem = (props: Props) => {
-  return <div>AnswerItem</div>;
+const AnswerItem = ({ answer }: Props) => {
+  return <li>{answer.answerText}</li>;
 };
 
 export default AnswerItem;
