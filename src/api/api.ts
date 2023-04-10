@@ -8,9 +8,8 @@ export const APIS = {
   },
   QUESTION: {
     question: (quizID: string) => `${api}/question/${quizID}.json`,
-    // getQuestiion:
   },
   ANSWER: {
-    addAnswer: (questionID: string) => `${api}/answer/${questionID}.json`,
+    answer: (questionID: string) => `${api}/answer/${questionID}.json`,
   },
 };

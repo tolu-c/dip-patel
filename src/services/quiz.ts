@@ -1,6 +1,6 @@
 import AxiosApi from "../api";
 import { APIS } from "../api/api";
-import { Question, Quiz, QuizResponse } from "../utils/interfaces";
+import { Question, Quiz, QuizResponse, Answer } from "../utils/interfaces";
 
 export const getAllQuizzes = async () => {
   const res = await AxiosApi.get<QuizResponse>(`${APIS.QUIZ.quiz}`);
@@ -36,4 +36,17 @@ export const getQuestion = async (quizID: string) => {
     fetchedQuestions.push({ ...res.data[key] });
   }
   return fetchedQuestions;
+};
+
+export const getSingleQuestion = async (quizID: string, questionID: string) => {
+  const allQuestions: Question[] = await getQuestion(quizID);
+  const singleQuestion: Question = allQuestions.find(
+    (question) => question.questionID === questionID
+  )!;
+  return singleQuestion;
+};
+
+export const createAnswer = async (questionID: string, data: Answer) => {
+  const res = await AxiosApi.post(`${APIS.ANSWER.answer(questionID)}`, data);
+  return res.data;
 };

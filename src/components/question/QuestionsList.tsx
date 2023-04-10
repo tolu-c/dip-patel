@@ -22,7 +22,6 @@ const QuestionsList = ({
       setLoader(true);
       fetchQuestions();
     }
-
     //eslint-disable-next-line
   }, []);
 
