@@ -36,7 +36,6 @@ const QuizList = () => {
             description={quiz.description}
             points={quiz.points}
             timeLimit={quiz.timeLimit}
-            questions={[]}
             key={quiz.quizID}
           />
         ))}

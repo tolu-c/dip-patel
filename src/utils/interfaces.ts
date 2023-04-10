@@ -4,13 +4,11 @@ export interface Quiz {
   description: string;
   timeLimit: number;
   points: number;
-  questions: Question["questionID"][];
 }
 export interface Question {
   questionID: string;
   quizID: string;
   questionText: string;
-  answers: Answer["answerID"][];
 }
 
 export interface Answer {

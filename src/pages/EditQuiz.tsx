@@ -41,6 +41,7 @@ const EditQuiz = () => {
             setEditQuiz(false);
           }}
           quiz={quiz!}
+          isOpen={editQuiz}
         />
       )}
     </div>

@@ -14,7 +14,6 @@ const NewQuiz = () => {
     description: "",
     timeLimit: 0,
     points: 0,
-    questions: [],
   });
   const navigate = useNavigate();
   const { handleCreateQuiz, showLoader } = useQuiz();
