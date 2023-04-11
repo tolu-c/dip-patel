@@ -27,7 +27,7 @@ const Modal = ({
           <XMarkIcon className="w-6 h-6 cursor-pointer" onClick={onClose} />
         </div>
         {/* content */}
-        <div className="px-6">{children}</div>
+        <div className="px-6 flex flex-col gap-4 pb-8">{children}</div>
       </div>
     </div>
   );

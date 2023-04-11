@@ -1,19 +1,17 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Answer, Question } from "../../utils/interfaces";
 import { v4 as uuidv4 } from "uuid";
 import InputField from "../form/InputField";
 import Submit from "../form/Submit";
 import Modal from "../ui/Modal";
 import useQuiz from "../../hooks/useQuiz";
-import AnswerList from "./AnswerList";
 
 interface Props {
   onClose: () => void;
   question: Question;
-  isOpen: boolean;
 }
 
-const AddAnswer = ({ onClose, question, isOpen }: Props) => {
+const AddAnswer = ({ onClose, question }: Props) => {
   const [answer, setAnswer] = useState<Answer>({
     questionID: question.questionID,
     answerText: "",
@@ -22,24 +20,12 @@ const AddAnswer = ({ onClose, question, isOpen }: Props) => {
   });
   const [correctAnswer, setCorrectAnswer] = useState<boolean>(false);
 
-  const {
-    handleCreateAnswer,
-    setShowLoader,
-    showLoader,
-    handleGetAnswer,
-    answers,
-  } = useQuiz();
+  const { handleCreateAnswer } = useQuiz();
 
-  const fetchAnswer = () => {
-    handleGetAnswer(answer.questionID).finally(() => {
-      setShowLoader(false);
-    });
-  };
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (value: string, name: string) => {
     setAnswer({
       ...answer,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
   };
 
@@ -51,14 +37,7 @@ const AddAnswer = ({ onClose, question, isOpen }: Props) => {
       isCorrect: correctAnswer,
     };
     // console.log({ submittedAnswer });
-    handleCreateAnswer(submittedAnswer.questionID, submittedAnswer)
-      .then(() => {
-        setShowLoader(true);
-        fetchAnswer();
-      })
-      .finally(() => {
-        setShowLoader(true);
-      });
+    handleCreateAnswer(submittedAnswer.questionID, submittedAnswer);
   };
 
   return (
@@ -67,7 +46,7 @@ const AddAnswer = ({ onClose, question, isOpen }: Props) => {
       headerSubTitle={question.questionText}
       onClose={onClose}
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <InputField
           label="Add Answer"
           placeholder="Enter your answer"
@@ -76,11 +55,18 @@ const AddAnswer = ({ onClose, question, isOpen }: Props) => {
           onChange={handleInputChange}
         />
         <div className="flex flex-col gap-2">
-          <label htmlFor="isCorrect">Is this the correct answer</label>
+          <label
+            htmlFor="isCorrect"
+            className="capitalize font-medium text-lg text-slate-800"
+          >
+            Is this the correct answer
+          </label>
           <button
             type="button"
             id="isCorrect"
-            className="w-max"
+            className={`w-max text-lg font-bold ${
+              correctAnswer ? "text-green-950" : "text-red-950"
+            }`}
             onClick={() => {
               setCorrectAnswer(!correctAnswer);
             }}
@@ -91,14 +77,6 @@ const AddAnswer = ({ onClose, question, isOpen }: Props) => {
 
         <Submit title="Add Answer" />
       </form>
-      {/* answers created */}
-      <AnswerList
-        answers={answers!}
-        fetchAnswers={fetchAnswer}
-        isOpen={isOpen}
-        loading={showLoader}
-        setLoader={setShowLoader}
-      />
     </Modal>
   );
 };

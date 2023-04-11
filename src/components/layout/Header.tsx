@@ -1,9 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
     <div className="w-full p-4 flex justify-between items-center">
-      <h2>Logo</h2>
+      <Link to="/quiz">
+        <h2 className="text-lg font-bold ">Dip Patel</h2>
+      </Link>
 
       <ul className=" flex gap-3 items-center">
         <NavLinks to="quiz" title="Quizzes" />

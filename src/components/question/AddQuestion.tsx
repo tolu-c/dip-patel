@@ -1,44 +1,29 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Question, Quiz } from "../../utils/interfaces";
 import InputField from "../form/InputField";
 import { v4 as uuidv4 } from "uuid";
 import Submit from "../form/Submit";
 import useQuiz from "../../hooks/useQuiz";
-import QuestionsList from "./QuestionsList";
 import Modal from "../ui/Modal";
 
 interface Props {
   onClose: () => void;
   quiz: Quiz;
-  isOpen: boolean;
 }
 
-const AddQuestion = ({ onClose, quiz, isOpen }: Props) => {
-  const {
-    handleCreateQuestion,
-    handleGetQuestion,
-    showLoader,
-    setShowLoader,
-    questions,
-  } = useQuiz();
+const AddQuestion = ({ onClose, quiz }: Props) => {
+  const { handleCreateQuestion } = useQuiz();
   const [question, setQuestion] = useState<Question>({
     quizID: quiz.quizID,
     questionID: "",
     questionText: "",
   });
 
-  // fetch questions function
-  const fetchQuestions = () => {
-    handleGetQuestion(question.quizID).finally(() => {
-      setShowLoader(false);
-    });
-  };
-
   // watches for `questionText` value change
-  const handleQuestionChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleQuestionChange = (value: string, name: string) => {
     setQuestion({
       ...question,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
   };
 
@@ -49,15 +34,8 @@ const AddQuestion = ({ onClose, quiz, isOpen }: Props) => {
       ...question,
       questionID: uuidv4(),
     };
-    handleCreateQuestion(submittedQuestion.quizID, submittedQuestion)
-      // re-fetches questions to pull the latest questions
-      .then(() => {
-        setShowLoader(true);
-        fetchQuestions();
-      })
-      .finally(() => {
-        setShowLoader(false);
-      });
+    handleCreateQuestion(submittedQuestion.quizID, submittedQuestion);
+    onClose();
   };
 
   return (
@@ -72,18 +50,12 @@ const AddQuestion = ({ onClose, quiz, isOpen }: Props) => {
           name="questionText"
           inputType="text"
           placeholder="Enter your question"
+          required
+          minLength={7}
           onChange={handleQuestionChange}
         />
         <Submit title="Add Question" />
       </form>
-      {/* question submitted appear here */}
-      <QuestionsList
-        questions={questions!}
-        fetchQuestions={fetchQuestions}
-        isOpen={isOpen}
-        loading={showLoader}
-        setLoader={setShowLoader}
-      />
     </Modal>
   );
 };

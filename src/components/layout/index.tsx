@@ -10,7 +10,7 @@ const Layout = ({ children }: Props) => {
   return (
     <Fragment>
       <Header />
-      <main>{children}</main>
+      <main className="p-2 grid grid-cols-1 gap-6">{children}</main>
       <Footer />
     </Fragment>
   );

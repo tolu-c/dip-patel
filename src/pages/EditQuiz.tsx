@@ -1,9 +1,16 @@
 import { useParams } from "react-router-dom";
 import AddQuestion from "../components/question/AddQuestion";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Question, Quiz } from "../utils/interfaces";
 import useQuiz from "../hooks/useQuiz";
 import AddAnswer from "../components/answers/AddAnswer";
+import Loader from "../components/ui/Loader";
+import Button from "../components/form/Button";
+import {
+  PlusSmallIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from "@heroicons/react/24/solid";
 
 const EditQuiz = () => {
   const { quizID } = useParams<string>();
@@ -33,55 +40,72 @@ const EditQuiz = () => {
 
   useEffect(() => {
     fetchQuiz();
-    fetchQuestions();
+    if (!editQuiz) {
+      fetchQuestions();
+    }
     //eslint-disable-next-line
-  }, []);
+  }, [editQuiz]);
 
   if (showLoader) {
-    return <p>Fetching your quiz... Give us a minute.</p>;
+    return <Loader />;
   }
 
   return (
-    <div>
-      <h2>EditQuiz: {quiz?.name}</h2>
-      <button
-        type="button"
-        onClick={() => {
-          setEditQuiz(true);
-        }}
-      >
-        Add Question
-      </button>
+    <Fragment>
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-semibold text-slate-950">
+          Edit: <span className="text-bold">{quiz?.name}</span>
+        </h2>
+        <Button
+          onClick={() => {
+            setEditQuiz(true);
+          }}
+          size="small"
+          title="Add question"
+          color="primary"
+          rounded="round"
+          icon={{
+            iconPosition: "left",
+            iconElement: <PlusSmallIcon className="w-6 h-6" />,
+          }}
+        />
+      </div>
+
       {editQuiz && (
         <AddQuestion
           onClose={() => {
             setEditQuiz(false);
           }}
           quiz={quiz!}
-          isOpen={editQuiz}
         />
       )}
       {/* questions */}
       {!questions || questions.length === 0 ? (
-        <p>No Questions yet</p>
+        <p className="text-amber-800 font-bold text-lg">No Questions yet</p>
       ) : (
-        questions.map((question: Question) => (
-          <ul key={question.questionID}>
-            <li className="flex gap-x-4">
-              <p>{question.questionText}</p>
-              <button
-                type="button"
-                onClick={() => {
-                  setCurrentQuestion(question);
-                  setEditQuestion(true);
-                }}
-                className="underline cursor-pointer"
-              >
-                Edit
-              </button>
+        <ul className="flex flex-col gap-3">
+          {questions.map((question) => (
+            <li key={question.questionID} className="flex gap-x-4">
+              <p className="text-base font-medium text-slate-700">
+                {question.questionText}
+              </p>
+              <div className="flex items-center gap-4">
+                <span className="text-green-600">
+                  <PencilSquareIcon
+                    className="w-4 h-4 cursor-pointer"
+                    onClick={() => {
+                      setCurrentQuestion(question);
+                      setEditQuestion(true);
+                    }}
+                  />
+                </span>
+                <span className="text-red-600">
+                  <TrashIcon className="w-4 h-4 cursor-pointer" />
+                </span>
+              </div>
             </li>
-          </ul>
-        ))
+          ))}
+        </ul>
       )}
       {/* add answers modal */}
       {editQuestion && (
@@ -90,10 +114,9 @@ const EditQuiz = () => {
             setEditQuestion(false);
           }}
           question={currentQuestion!}
-          isOpen={editQuestion}
         />
       )}
-    </div>
+    </Fragment>
   );
 };
 

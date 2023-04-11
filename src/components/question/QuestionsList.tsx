@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { Question } from "../../utils/interfaces";
 import QuestionItem from "./QuestionItem";
+import Loader from "../ui/Loader";
 
 type Props = {
   loading: boolean;
@@ -25,7 +26,7 @@ const QuestionsList = ({
     //eslint-disable-next-line
   }, []);
 
-  if (loading) return <p>Fetching your questions</p>;
+  if (loading) return <Loader />;
 
   if (!questions || questions.length === 0) {
     return <h2>No questions yet</h2>;

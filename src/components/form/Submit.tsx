@@ -4,8 +4,13 @@ interface SubmitProps {
 
 const Submit = ({ title }: SubmitProps) => {
   return (
-    <div>
-      <button type="submit">{title}</button>
+    <div className="flex w-full">
+      <button
+        type="submit"
+        className="w-full bg-black text-white text-lg capitalize font-semibold py-3"
+      >
+        {title}
+      </button>
     </div>
   );
 };
