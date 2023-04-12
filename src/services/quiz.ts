@@ -33,10 +33,21 @@ export const createQuestion = async (quizID: string, data: Question) => {
 };
 
 export const deleteQuestion = async (quizID: string, questionID: string) => {
-  const res = await AxiosApi.delete(
-    `${APIS.QUESTION.question(quizID)}/${questionID}`
+  // get answers first
+  const answersRes = await AxiosApi.get(`${APIS.ANSWER.getAnswer(questionID)}`);
+  const answers = answersRes.data;
+
+  // delete each answer
+  const deleteAnswerPromises = Object.keys(answers).map((answerID) => {
+    return AxiosApi.delete(`${APIS.ANSWER.answer(questionID, answerID)}`);
+  });
+
+  // delete question after answers have been deleted
+  await Promise.all(deleteAnswerPromises);
+  const questionRes = await AxiosApi.delete(
+    `${APIS.QUESTION.singleQuestion(quizID, questionID)}`
   );
-  return res.data;
+  return questionRes.data;
 };
 
 export const getQuestion = async (quizID: string) => {

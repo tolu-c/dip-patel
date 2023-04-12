@@ -38,6 +38,7 @@ const AddAnswer = ({ onClose, question }: Props) => {
     };
     // console.log({ submittedAnswer });
     handleCreateAnswer(submittedAnswer.questionID, submittedAnswer);
+    onClose();
   };
 
   return (

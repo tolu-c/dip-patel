@@ -42,17 +42,18 @@ const EditQuiz = () => {
   // delete question function
   const deleteQuestion = (quizID: string, questionID: string) => {
     handleDeleteQuestion(quizID, questionID).then(() => {
+      setShowLoader(true);
       fetchQuestions();
     });
   };
 
   useEffect(() => {
     fetchQuiz();
-    if (!editQuiz) {
+    if (!editQuiz || !editQuestion) {
       fetchQuestions();
     }
     //eslint-disable-next-line
-  }, [editQuiz]);
+  }, [editQuiz, editQuestion]);
 
   if (showLoader) {
     return <Loader />;
