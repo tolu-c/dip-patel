@@ -8,6 +8,7 @@ import {
   getQuestion,
   getSingleQuiz,
   getAnswer,
+  deleteQuestion,
 } from "../services/quiz";
 // import useNotification from "./useNotification";
 
@@ -76,11 +77,23 @@ const useQuiz = () => {
       createQuestion(quizID, data)
         .then((res) => {
           resolve(res);
-          // showNotification({
-          //   title: "Success",
-          //   message: "Question added successfully",
-          //   type: "success",
-          // });
+        })
+        .catch((error) => {
+          console.log(`Error: ${error.message}`);
+        })
+        .finally(() => {
+          setShowLoader(false);
+        });
+    });
+  };
+
+  const handleDeleteQuestion = (quizID: string, questionID: string) => {
+    return new Promise<any>((resolve) => {
+      setShowLoader(true);
+
+      deleteQuestion(quizID, questionID)
+        .then((res) => {
+          resolve(res);
         })
         .catch((error) => {
           console.log(`Error: ${error.message}`);
@@ -146,6 +159,7 @@ const useQuiz = () => {
     handleCreateQuiz,
     handleGetSingleQuiz,
     handleCreateQuestion,
+    handleDeleteQuestion,
     handleGetQuestion,
     handleCreateAnswer,
     handleGetAnswer,

@@ -23,6 +23,7 @@ const EditQuiz = () => {
     showLoader,
     questions,
     handleGetQuestion,
+    handleDeleteQuestion,
     setShowLoader,
   } = useQuiz();
 
@@ -35,6 +36,13 @@ const EditQuiz = () => {
   const fetchQuestions = () => {
     handleGetQuestion(quizID!).finally(() => {
       setShowLoader(false);
+    });
+  };
+
+  // delete question function
+  const deleteQuestion = (quizID: string, questionID: string) => {
+    handleDeleteQuestion(quizID, questionID).then(() => {
+      fetchQuestions();
     });
   };
 
@@ -100,7 +108,12 @@ const EditQuiz = () => {
                   />
                 </span>
                 <span className="text-red-600">
-                  <TrashIcon className="w-4 h-4 cursor-pointer" />
+                  <TrashIcon
+                    className="w-4 h-4 cursor-pointer"
+                    onClick={() => {
+                      deleteQuestion(question.quizID, question.questionID);
+                    }}
+                  />
                 </span>
               </div>
             </li>

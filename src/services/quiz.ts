@@ -1,53 +1,63 @@
 import AxiosApi from "../api";
 import { APIS } from "../api/api";
-import { Question, Quiz, QuizResponse, Answer } from "../utils/interfaces";
+import { Question, Quiz, Answer } from "../utils/interfaces";
 
 export const getAllQuizzes = async () => {
-  const res = await AxiosApi.get<QuizResponse>(`${APIS.QUIZ.quiz}`);
-  const fetchedQuizzes: Quiz[] = [];
-  for (let key in res.data) {
-    fetchedQuizzes.push({
-      ...res.data[key],
-    });
-  }
-  return fetchedQuizzes;
+  const res = await AxiosApi.get(`${APIS.QUIZ.getQuiz}`);
+  const data = res.data;
+  const quizzesData: Quiz[] = Object.values(data);
+  return quizzesData;
 };
 
 export const createQuiz = async (data: Quiz) => {
-  const res = await AxiosApi.post(`${APIS.QUIZ.quiz}`, data);
-  return res.data.name;
+  const { quizID } = data;
+  const res = await AxiosApi.put(`${APIS.QUIZ.quiz(quizID)}`, data);
+  return res.data;
 };
 
 export const getSingleQuiz = async (quizID: string) => {
   const allQuizzes = await getAllQuizzes();
-  const singleQuiz: Quiz = allQuizzes.find((quiz) => quiz.quizID === quizID)!;
+  const singleQuiz: Quiz = allQuizzes.find(
+    (quiz: Quiz) => quiz.quizID === quizID
+  )!;
   return singleQuiz;
 };
 
 export const createQuestion = async (quizID: string, data: Question) => {
-  const res = await AxiosApi.post(`${APIS.QUESTION.question(quizID)}`, data);
+  const { questionID } = data;
+  const res = await AxiosApi.put(
+    `${APIS.QUESTION.singleQuestion(quizID, questionID)}`,
+    data
+  );
+  return res.data;
+};
+
+export const deleteQuestion = async (quizID: string, questionID: string) => {
+  const res = await AxiosApi.delete(
+    `${APIS.QUESTION.question(quizID)}/${questionID}`
+  );
   return res.data;
 };
 
 export const getQuestion = async (quizID: string) => {
   const res = await AxiosApi.get(`${APIS.QUESTION.question(quizID)}`);
-  const fetchedQuestions: Question[] = [];
-  for (let key in res.data) {
-    fetchedQuestions.push({ ...res.data[key] });
-  }
+  const data = res.data;
+  const fetchedQuestions: Question[] = Object.values(data);
   return fetchedQuestions;
 };
 
 export const createAnswer = async (questionID: string, data: Answer) => {
-  const res = await AxiosApi.post(`${APIS.ANSWER.answer(questionID)}`, data);
+  const { answerID } = data;
+  const res = await AxiosApi.put(
+    `${APIS.ANSWER.answer(questionID, answerID)}`,
+    data
+  );
   return res.data;
 };
 
 export const getAnswer = async (questionID: string) => {
-  const res = await AxiosApi.get(`${APIS.ANSWER.answer(questionID)}`);
-  const fetchedAnswers: Answer[] = [];
-  for (let key in res.data) {
-    fetchedAnswers.push({ ...res.data[key] });
-  }
+  const res = await AxiosApi.get(`${APIS.ANSWER.getAnswer(questionID)}`);
+  const data = res.data;
+  const fetchedAnswers: Answer[] = Object.values(data);
   return fetchedAnswers;
 };
