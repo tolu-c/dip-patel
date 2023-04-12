@@ -5,7 +5,7 @@ import { useState, FormEvent, Fragment } from "react";
 import { Quiz } from "../../utils/interfaces";
 import { useNavigate } from "react-router-dom";
 import useQuiz from "../../hooks/useQuiz";
-import { v4 as uuidv4 } from "uuid";
+import { generateUniqueID } from "../../utils/generateUniqueID";
 import Loader from "../ui/Loader";
 
 const NewQuiz = () => {
@@ -23,7 +23,7 @@ const NewQuiz = () => {
     event.preventDefault();
     const submittedQuiz: Quiz = {
       ...quiz,
-      quizID: uuidv4(),
+      quizID: generateUniqueID(),
     };
     handleCreateQuiz(submittedQuiz);
 

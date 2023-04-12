@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Answer, Question } from "../../utils/interfaces";
-import { v4 as uuidv4 } from "uuid";
+import { generateUniqueID } from "../../utils/generateUniqueID";
 import InputField from "../form/InputField";
 import Submit from "../form/Submit";
 import Modal from "../ui/Modal";
@@ -33,7 +33,7 @@ const AddAnswer = ({ onClose, question }: Props) => {
     event.preventDefault();
     const submittedAnswer: Answer = {
       ...answer,
-      answerID: uuidv4(),
+      answerID: generateUniqueID(),
       isCorrect: correctAnswer,
     };
     // console.log({ submittedAnswer });

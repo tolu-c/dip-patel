@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Question, Quiz } from "../../utils/interfaces";
 import InputField from "../form/InputField";
-import { v4 as uuidv4 } from "uuid";
+import { generateUniqueID } from "../../utils/generateUniqueID";
 import Submit from "../form/Submit";
 import useQuiz from "../../hooks/useQuiz";
 import Modal from "../ui/Modal";
@@ -32,7 +32,7 @@ const AddQuestion = ({ onClose, quiz }: Props) => {
     event.preventDefault();
     const submittedQuestion: Question = {
       ...question,
-      questionID: uuidv4(),
+      questionID: generateUniqueID(),
     };
     handleCreateQuestion(submittedQuestion.quizID, submittedQuestion);
     onClose();
