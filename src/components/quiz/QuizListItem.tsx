@@ -29,26 +29,29 @@ const QuizListItem = ({
           }}
         >
           Ready to take the quiz??
-          <div className="grid grid-cols-2 gap-4 p-2">
-            <Button
-              onClick={() => {
-                setOpenModal(false);
-              }}
-              size="base"
-              title="No, I'm not"
-              color="secondary"
-              rounded="flat"
-            />
-
-            <Button
-              onClick={() => {
-                navigate(`/quiz/${quizID}`);
-              }}
-              size="base"
-              title="Yes, I'm ready"
-              color="primary"
-              rounded="flat"
-            />
+          <div className="grid grid-cols-2 gap-4 p-2 w-full">
+            <div>
+              <Button
+                onClick={() => {
+                  setOpenModal(false);
+                }}
+                size="base"
+                title="No, I'm not"
+                color="secondary"
+                rounded="flat"
+              />
+            </div>
+            <div>
+              <Button
+                onClick={() => {
+                  navigate(`/quiz/${quizID}`);
+                }}
+                size="base"
+                title="Yes, I'm ready"
+                color="primary"
+                rounded="flat"
+              />
+            </div>
           </div>
         </Modal>
       )}

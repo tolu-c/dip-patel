@@ -8,13 +8,11 @@ type Props = {
 
 const AnswerItem = ({ answer, onChange }: Props) => {
   return (
-    <li>
-      <RadioField
-        name={answer.questionID}
-        label={answer.answerText}
-        handleChange={onChange}
-      />
-    </li>
+    <RadioField
+      name={answer.questionID}
+      label={answer.answerText}
+      handleChange={onChange}
+    />
   );
 };
 

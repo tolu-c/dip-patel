@@ -29,9 +29,9 @@ const Button = ({
   }`;
   const colorStyles: string = `${
     color === "primary"
-      ? "bg-blue-600 text-white"
+      ? "bg-blue-600 text-white hover:bg-blue-700"
       : color === "secondary"
-      ? "bg-red-600 text-white"
+      ? "bg-red-600 text-white hover:bg-red-700"
       : "bg-transparent text-black"
   }`;
   const roundedStyles: string = `${
@@ -49,7 +49,7 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`flex w-max lg:w-full font-medium ${sizeStyles} ${colorStyles} ${roundedStyles} flex items-center justify-center gap-2`}
+      className={`flex w-full font-medium ${sizeStyles} ${colorStyles} ${roundedStyles} flex items-center justify-center gap-2`}
       onClick={onClick}
     >
       {icon && icon.iconPosition === "left" && (

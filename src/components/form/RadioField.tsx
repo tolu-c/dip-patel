@@ -1,4 +1,3 @@
-import { useRef } from "react";
 interface RadioFieldProps {
   name: string;
   label: string;
@@ -6,20 +5,22 @@ interface RadioFieldProps {
 }
 
 const RadioField = ({ name, label, handleChange }: RadioFieldProps) => {
-  const answerRef = useRef<HTMLInputElement>(null);
-
   return (
-    <div className="flex items-center gap-2">
+    <label
+      htmlFor={label}
+      className="gap-4 border p-3 group hover:bg-green-100 w-full rounded-md flex items-center justify-start cursor-pointer"
+    >
       <input
         type="radio"
         id={label}
         name={name}
         value={label}
-        ref={answerRef}
         onChange={() => handleChange(name, label)}
       />
-      <label htmlFor={label}>{label}</label>
-    </div>
+      <span className="text-slate-600 group-hover:text-green-800 font-medium group-hover:font-bold text-base first-letter:capitalize">
+        {label}
+      </span>
+    </label>
   );
 };
 

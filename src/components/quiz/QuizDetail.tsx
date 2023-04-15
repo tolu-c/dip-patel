@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import useQuiz from "../../hooks/useQuiz";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Question, Quiz } from "../../utils/interfaces";
-import QuestionItem from "../question/QuestionItem";
 import Button from "../form/Button";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
+import QuestionList from "../question/QuestionList";
 
 interface Props {
   quizID: string;
@@ -13,9 +13,7 @@ interface Props {
 const QuizDetail = ({ quizID }: Props) => {
   const [quiz, setQuiz] = useState<Quiz>();
   const [questions, setQuestions] = useState<Question[] | null>(null);
-  const [selectedAnswers, setsSelectedAnswers] = useState<
-    Record<string, string>
-  >({});
+
   const {
     handleGetSingleQuiz: getSingleQuiz,
     handleGetQuestion,
@@ -47,18 +45,6 @@ const QuizDetail = ({ quizID }: Props) => {
     //eslint-disable-next-line
   }, []);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log({ selectedAnswers });
-  };
-
-  const handleChange = (questionID: string, answerText: string) => {
-    setsSelectedAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [questionID]: answerText,
-    }));
-  };
-
   if (showLoader) {
     return <p>Fetching your quiz... Give us a minute.</p>;
   }
@@ -83,13 +69,15 @@ const QuizDetail = ({ quizID }: Props) => {
           />
         </div>
       </div>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4">
         <p className="text-base font-normal text-slate-600 first-letter:capitalize">
           {quiz?.description}
         </p>
-        {questions && <span>{questions.length} questions</span>}
-        <p>{quiz?.points} points</p>
-        <p>{quiz?.timeLimit} minutes</p>
+        <div className="flex gap-3">
+          {questions && <span>{questions.length} questions</span>}
+          <p>{quiz?.points} points</p>
+          <p>{quiz?.timeLimit} minutes</p>
+        </div>
       </div>
       {questions?.length === 0 || !questions ? (
         <p className="flex gap-2 items-baseline">
@@ -102,18 +90,7 @@ const QuizDetail = ({ quizID }: Props) => {
           </Link>
         </p>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <ul className="flex flex-col divide-y p-2 gap-4 w-3/4 border shadow-md mx-auto">
-            {questions.map((question) => (
-              <QuestionItem
-                question={question}
-                key={question.questionID}
-                handleChange={handleChange}
-              />
-            ))}
-          </ul>
-          <button type="submit">Submit</button>
-        </form>
+        <QuestionList questions={questions} />
       )}
     </div>
   );
