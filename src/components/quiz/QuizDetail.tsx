@@ -5,6 +5,7 @@ import { Question, Quiz } from "../../utils/interfaces";
 import Button from "../form/Button";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 import QuestionList from "../question/QuestionList";
+import Loader from "../ui/Loader";
 
 interface Props {
   quizID: string;
@@ -46,7 +47,7 @@ const QuizDetail = ({ quizID }: Props) => {
   }, []);
 
   if (showLoader) {
-    return <p>Fetching your quiz... Give us a minute.</p>;
+    return <Loader />;
   }
 
   return (
