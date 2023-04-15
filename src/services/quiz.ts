@@ -72,3 +72,10 @@ export const getAnswer = async (questionID: string) => {
   const fetchedAnswers: Answer[] = Object.values(data);
   return fetchedAnswers;
 };
+
+export const deleteAnswer = async (questionID: string, answerID: string) => {
+  const res = await AxiosApi.delete(
+    `${APIS.ANSWER.answer(questionID, answerID)}`
+  );
+  return res.data;
+};

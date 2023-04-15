@@ -22,7 +22,9 @@ const Modal = ({
         <div className="font-medium px-4 p-2 flex items-center justify-between">
           <h2 className="text-bold">
             {headerTitle}
-            <span className="font-bold">"{headerSubTitle}"</span>
+            {headerSubTitle && (
+              <span className="font-bold">"{headerSubTitle}"</span>
+            )}
           </h2>
           <XMarkIcon className="w-6 h-6 cursor-pointer" onClick={onClose} />
         </div>

@@ -9,6 +9,7 @@ import {
   getSingleQuiz,
   getAnswer,
   deleteQuestion,
+  deleteAnswer,
 } from "../services/quiz";
 // import useNotification from "./useNotification";
 
@@ -154,6 +155,23 @@ const useQuiz = () => {
     });
   };
 
+  const handleDeleteAnswer = async (questionID: string, answerID: string) => {
+    return new Promise<any>((resolve) => {
+      setShowLoader(true);
+
+      deleteAnswer(questionID, answerID)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log(`Error: ${error.message}`);
+        })
+        .finally(() => {
+          setShowLoader(false);
+        });
+    });
+  };
+
   return {
     handleGetAllQuizzes,
     handleCreateQuiz,
@@ -163,6 +181,7 @@ const useQuiz = () => {
     handleGetQuestion,
     handleCreateAnswer,
     handleGetAnswer,
+    handleDeleteAnswer,
     setShowLoader,
     showLoader,
     quizzes,

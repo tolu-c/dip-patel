@@ -31,7 +31,7 @@ const NavLinks = ({ to, title }: NavLinksProps) => {
             ? "text-gray-400"
             : isActive
             ? "underline"
-            : " text-gray-900"
+            : " text-gray-900 hover:underline"
         }
       >
         {title}

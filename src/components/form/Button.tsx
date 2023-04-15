@@ -31,7 +31,7 @@ const Button = ({
     color === "primary"
       ? "bg-blue-600 text-white"
       : color === "secondary"
-      ? ""
+      ? "bg-red-600 text-white"
       : "bg-transparent text-black"
   }`;
   const roundedStyles: string = `${
@@ -49,7 +49,7 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`flex w-max font-medium ${sizeStyles} ${colorStyles} ${roundedStyles} flex items-center gap-2`}
+      className={`flex w-max lg:w-full font-medium ${sizeStyles} ${colorStyles} ${roundedStyles} flex items-center justify-center gap-2`}
       onClick={onClick}
     >
       {icon && icon.iconPosition === "left" && (

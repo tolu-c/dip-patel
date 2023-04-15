@@ -27,6 +27,7 @@ const EditQuiz = () => {
     setShowLoader,
   } = useQuiz();
 
+  // fetch quiz function
   const fetchQuiz = async () => {
     const singleQuiz = await getSingleQuiz(quizID!);
     setQuiz(singleQuiz);
@@ -65,19 +66,21 @@ const EditQuiz = () => {
         <h2 className="text-2xl font-semibold text-slate-950">
           Edit: <span className="text-bold">{quiz?.name}</span>
         </h2>
-        <Button
-          onClick={() => {
-            setEditQuiz(true);
-          }}
-          size="small"
-          title="Add question"
-          color="primary"
-          rounded="round"
-          icon={{
-            iconPosition: "left",
-            iconElement: <PlusSmallIcon className="w-6 h-6" />,
-          }}
-        />
+        <div>
+          <Button
+            onClick={() => {
+              setEditQuiz(true);
+            }}
+            size="small"
+            title="Add question"
+            color="primary"
+            rounded="round"
+            icon={{
+              iconPosition: "left",
+              iconElement: <PlusSmallIcon className="w-6 h-6" />,
+            }}
+          />
+        </div>
       </div>
 
       {editQuiz && (
@@ -94,28 +97,30 @@ const EditQuiz = () => {
       ) : (
         <ul className="flex flex-col gap-3">
           {questions.map((question) => (
-            <li key={question.questionID} className="flex gap-x-4">
-              <p className="text-base font-medium text-slate-700">
-                {question.questionText}
-              </p>
-              <div className="flex items-center gap-4">
-                <span className="text-green-600">
-                  <PencilSquareIcon
-                    className="w-4 h-4 cursor-pointer"
-                    onClick={() => {
-                      setCurrentQuestion(question);
-                      setEditQuestion(true);
-                    }}
-                  />
-                </span>
-                <span className="text-red-600">
-                  <TrashIcon
-                    className="w-4 h-4 cursor-pointer"
-                    onClick={() => {
-                      deleteQuestion(question.quizID, question.questionID);
-                    }}
-                  />
-                </span>
+            <li key={question.questionID} className="flex flex-col gap-y-6">
+              <div className="flex gap-x-4">
+                <p className="text-base font-medium text-slate-700">
+                  {question.questionText}
+                </p>
+                <div className="flex items-center gap-4">
+                  <span className="text-green-600">
+                    <PencilSquareIcon
+                      className="w-4 h-4 cursor-pointer"
+                      onClick={() => {
+                        setCurrentQuestion(question);
+                        setEditQuestion(true);
+                      }}
+                    />
+                  </span>
+                  <span className="text-red-600">
+                    <TrashIcon
+                      className="w-4 h-4 cursor-pointer"
+                      onClick={() => {
+                        deleteQuestion(question.quizID, question.questionID);
+                      }}
+                    />
+                  </span>
+                </div>
               </div>
             </li>
           ))}
@@ -130,6 +135,7 @@ const EditQuiz = () => {
           question={currentQuestion!}
         />
       )}
+      {/* answers */}
     </Fragment>
   );
 };
